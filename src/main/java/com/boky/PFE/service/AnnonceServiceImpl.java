@@ -1,6 +1,9 @@
 package com.boky.PFE.service;
+import com.boky.PFE.Beans.SaveAnnonce;
 import com.boky.PFE.entite.Annonce;
+import com.boky.PFE.entite.Annonceur;
 import com.boky.PFE.repository.AnnonceRepository;
+import com.boky.PFE.repository.AnnonceurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +14,15 @@ public class AnnonceServiceImpl implements AnnonceService
 {
     @Autowired
     AnnonceRepository annonceRepository;
+    @Autowired
+    AnnonceurRepository annonceurRepository;
     @Override
-    public Annonce AjouterAnnonce(Annonce annonce) {
+    public Annonce AjouterAnnonce(SaveAnnonce model) {
+
+        Annonce annonce=SaveAnnonce.toEntity(model);
+        System.out.println("idannonceur"+model.getId_annonceur());
+        Annonceur annonceur=annonceurRepository.findById(model.getId_annonceur()).get();
+        annonce.setAnnonceur(annonceur);
         return annonceRepository.save(annonce);
     }
 
