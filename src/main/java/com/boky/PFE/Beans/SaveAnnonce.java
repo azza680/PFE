@@ -1,19 +1,9 @@
-package com.boky.PFE.entite;
+package com.boky.PFE.Beans;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.boky.PFE.entite.Annonce;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-
-public class Annonce {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaveAnnonce
+{
     private Long id ;
     private String type_d_hebergement;
     private int nb_voyageur;
@@ -22,6 +12,7 @@ public class Annonce {
     private int nb_salles;
     private String equipement;
     private String equipement_specail;
+    private String equipement_securite;
     private String image ;
     private String titre ;
     private String description;
@@ -36,13 +27,37 @@ public class Annonce {
     private String code_postale;
     private String heure_depart;
     private String heure_arriver;
-
-    public String getType_d_hebergement() {
-        return type_d_hebergement;
-    }
-
-    public void setType_d_hebergement(String type_d_hebergement) {
-        this.type_d_hebergement = type_d_hebergement;
+    private long id_annonceur;
+    public static Annonce toEntity(SaveAnnonce model)
+    {
+        if(model == null)
+        {
+            return null ;
+        }
+        Annonce annonce=new Annonce();
+        annonce.setId(model.getId());
+        annonce.setType_d_hebergement(model.getType_d_hebergement());
+        annonce.setNb_voyageur(model.getNb_voyageur());
+        annonce.setNb_chamber(model.getNb_chamber());
+        annonce.setNb_lits(model.getNb_lits());
+        annonce.setNb_salles(model.getNb_salles());
+        annonce.setEquipement(model.getEquipement());
+        annonce.setEquipement_specail(model.getEquipement_specail());
+        annonce.setEquipement_securite(model.getEquipement_securite());
+        annonce.setImage(model.getImage());
+        annonce.setTitre(model.getTitre());
+        annonce.setDescription(model.getDescription());
+        annonce.setMode_de_confirmation(model.getMode_de_confirmation());
+        annonce.setFrais_de_service(model.getFrais_de_service());
+        annonce.setReduction_semaine(model.isReduction_semaine());
+        annonce.setReduction_mois(model.isReduction_mois());
+        annonce.setPrix(model.getPrix());
+        annonce.setPays(model.getPays());
+        annonce.setLibelle_de_voie(model.getLibelle_de_voie());
+        annonce.setCode_postale(model.getCode_postale());
+        annonce.setHeure_depart(model.getHeure_depart());
+        annonce.setHeure_arriver(annonce.getHeure_arriver());
+        return annonce;
     }
 
     public Long getId() {
@@ -53,10 +68,12 @@ public class Annonce {
         this.id = id;
     }
 
+    public String getType_d_hebergement() {
+        return type_d_hebergement;
+    }
 
-
-    public int getNb_chamber() {
-        return nb_chamber;
+    public void setType_d_hebergement(String type_d_hebergement) {
+        this.type_d_hebergement = type_d_hebergement;
     }
 
     public int getNb_voyageur() {
@@ -65,6 +82,10 @@ public class Annonce {
 
     public void setNb_voyageur(int nb_voyageur) {
         this.nb_voyageur = nb_voyageur;
+    }
+
+    public int getNb_chamber() {
+        return nb_chamber;
     }
 
     public void setNb_chamber(int nb_chamber) {
@@ -213,5 +234,21 @@ public class Annonce {
 
     public void setHeure_arriver(String heure_arriver) {
         this.heure_arriver = heure_arriver;
+    }
+
+    public long getId_annonceur() {
+        return id_annonceur;
+    }
+
+    public void setId_annonceur(long id_annonceur) {
+        this.id_annonceur = id_annonceur;
+    }
+
+    public String getEquipement_securite() {
+        return equipement_securite;
+    }
+
+    public void setEquipement_securite(String equipement_securite) {
+        this.equipement_securite = equipement_securite;
     }
 }
