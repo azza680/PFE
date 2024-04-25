@@ -1,13 +1,9 @@
-package com.boky.PFE.beans;
+package com.boky.PFE.Beans;
 
 import com.boky.PFE.entite.Annonce;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-public class SaveAnnonce {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaveAnnonce
+{
     private Long id ;
     private String type_d_hebergement;
     private int nb_voyageur;
@@ -26,21 +22,12 @@ public class SaveAnnonce {
     private boolean reduction_mois;
     private float prix;
     private String pays;
-    private boolean etat;
+    private String etat;
     private String libelle_de_voie;
     private String code_postale;
     private String heure_depart;
     private String heure_arriver;
-    private Long getId_utilisateur;
-
-    public Long getId_utilisateur() {
-        return getId_utilisateur;
-    }
-
-    public void setId_utilisateur(Long getId_utilisateur) {
-        this.getId_utilisateur = getId_utilisateur;
-    }
-
+    private long id_annonceur;
     public static Annonce toEntity(SaveAnnonce model)
     {
         if(model == null)
@@ -137,14 +124,6 @@ public class SaveAnnonce {
         this.equipement_specail = equipement_specail;
     }
 
-    public String getEquipement_securite() {
-        return equipement_securite;
-    }
-
-    public void setEquipement_securite(String equipement_securite) {
-        this.equipement_securite = equipement_securite;
-    }
-
     public String getImage() {
         return image;
     }
@@ -217,11 +196,11 @@ public class SaveAnnonce {
         this.pays = pays;
     }
 
-    public boolean isEtat() {
+    public String getEtat() {
         return etat;
     }
 
-    public void setEtat(boolean etat) {
+    public void setEtat(String etat) {
         this.etat = etat;
     }
 
@@ -257,4 +236,19 @@ public class SaveAnnonce {
         this.heure_arriver = heure_arriver;
     }
 
+    public long getId_annonceur() {
+        return id_annonceur;
+    }
+
+    public void setId_annonceur(long id_annonceur) {
+        this.id_annonceur = id_annonceur;
+    }
+
+    public String getEquipement_securite() {
+        return equipement_securite;
+    }
+
+    public void setEquipement_securite(String equipement_securite) {
+        this.equipement_securite = equipement_securite;
+    }
 }
