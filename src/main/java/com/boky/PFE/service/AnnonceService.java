@@ -1,5 +1,6 @@
 package com.boky.PFE.service;
 
+import com.boky.PFE.beans.SaveAnnonce;
 import com.boky.PFE.entite.Admin;
 import com.boky.PFE.entite.Annonce;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface AnnonceService
 {
-    Annonce AjouterAnnonce(Annonce annonce);
+    Annonce AjouterAnnonce(SaveAnnonce model);
     Annonce ModifierAnnonce(Annonce annonce);
     List<Annonce> AfficherAnnonce();
     void SupprimerAnnonce (Long id);
