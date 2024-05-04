@@ -1,4 +1,6 @@
 package com.boky.PFE.restController;
+import com.boky.PFE.entite.ConfirmationToken;
+import com.boky.PFE.service.ConfirmationTokenService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.boky.PFE.entite.Utilisateur;
@@ -27,7 +29,7 @@ public class UtilisateurRestController {
     @Autowired
     UtilisateurRepository utilisateurRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    @PostMapping("/register")
+    @PostMapping(value = "/register")
     ResponseEntity<?> AjouterUtilisateur (@RequestBody Utilisateur utilisateur)
     {
         return utilisateurService.AjouterUtilisateur(utilisateur);
@@ -36,6 +38,9 @@ public class UtilisateurRestController {
     UtilisateurService utilisateurService;
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
     @RequestMapping(method = RequestMethod.GET)
     public List<Utilisateur> AfficherUtilisateur()
     {
@@ -54,17 +59,28 @@ public class UtilisateurRestController {
 
         Utilisateur userFromDB = utilisateurRepository.findUtilisateurByEmail(utilisateur.getEmail());
         System.out.println("userFromDB+utilisateur"+userFromDB);
-        if (userFromDB == null) {
+        if (userFromDB == null)
+        {
             response.put("message", "Utilisateur not found !");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        } else {
+
+        }
+        else
+        {
             boolean compare = this.bCryptPasswordEncoder.matches(utilisateur.getMdp(), userFromDB.getMdp());
             System.out.println("compare"+compare);
             if (!compare) {
-                response.put("message", "Utilisateur not found !");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }else
+
+                response.put("message", "Incorrect password !");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+            else
             {
+                 if (!userFromDB.isEtat())
+                 {
+                response.put("message", "Account is not activated !");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+                }
                 String token = Jwts.builder()
                         .claim("data", userFromDB)
                         .signWith(SignatureAlgorithm.HS256, "SECRET")

@@ -16,7 +16,7 @@ public interface UtilisateurService {
     List<Utilisateur> AfficherUtilisateur();
     void SupprimerUtilisateur (Long id);
     Optional<Utilisateur> getUtilisateurById(Long id);
-    void ajouterPhotoDeProfil(Long userId, MultipartFile photo) throws IOException, UtilisateurNotFoundException;
+
     void modifierPhotoDeProfil(Long userId, MultipartFile photo)throws IOException, UtilisateurNotFoundException;
     ResponseEntity<?> ConfirmationEmail (String confirmationEmail);
 

@@ -1,5 +1,6 @@
 package com.boky.PFE.restController;
 
+import com.boky.PFE.Beans.SaveAnnonce;
 import com.boky.PFE.entite.Admin;
 import com.boky.PFE.entite.Annonce;
 import com.boky.PFE.entite.Client;
@@ -28,8 +29,12 @@ public class AnnonceRestController
     @Autowired
     AnnonceService annonceService;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public Annonce AjouterAnnonce (@RequestBody com.boky.PFE.Beans.SaveAnnonce model) {
+        return annonceService.AjouterAnnonce(model);
+    }
     @RequestMapping(method = RequestMethod.GET)
-    public List<Annonce> AjouterAnnonce()
+    public List<Annonce> AfficherAnnonce()
     {
         return annonceService.AfficherAnnonce();
     }

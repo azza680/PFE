@@ -24,6 +24,8 @@ public class UtilisateurServiceImpl implements UtilisateurService
     UtilisateurRepository utilisateurRepository;
     @Autowired
     ConfirmationTokenRepository confirmationTokenRepository;
+
+
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     @Autowired
     EmailUtilisateurService emailUtilisateurService;
@@ -62,26 +64,24 @@ public class UtilisateurServiceImpl implements UtilisateurService
     }
 
     @Override
-    public void SupprimerUtilisateur(Long id) {
-        utilisateurRepository.deleteById(id);
+    public void SupprimerUtilisateur(Long idUtilisateur) {
+        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(idUtilisateur);
+
+            Utilisateur utilisateur = optionalUtilisateur.get();
+            ConfirmationToken token = confirmationTokenRepository.findByUtilisateur(utilisateur);
+            if (token != null) {
+                confirmationTokenRepository.delete(token);
+            }
+            utilisateurRepository.delete(utilisateur);
+
     }
 
     @Override
     public Optional<Utilisateur> getUtilisateurById(Long id) {
         return utilisateurRepository.findById(id);
     }
-    @Override
-    public void ajouterPhotoDeProfil(Long userId, MultipartFile photo) throws IOException, UtilisateurNotFoundException {
-        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(userId);
-        if (optionalUtilisateur.isPresent()) {
-            Utilisateur utilisateur = optionalUtilisateur.get();
-            byte[] photoBytes = photo.getBytes();
-            utilisateur.setPhoto(photoBytes);
-            utilisateurRepository.save(utilisateur);
-        } else {
-            throw new UtilisateurNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
-        }
-    }
+
+
 
     @Override
     public void modifierPhotoDeProfil(Long userId, MultipartFile photo) throws IOException, UtilisateurNotFoundException {
@@ -113,4 +113,5 @@ public class UtilisateurServiceImpl implements UtilisateurService
 
         return ResponseEntity.badRequest().body("Error: Couldn't verify email");
     }
+
 }

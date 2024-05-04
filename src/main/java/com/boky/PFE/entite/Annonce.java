@@ -1,9 +1,6 @@
 package com.boky.PFE.entite;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +19,7 @@ public class Annonce {
     private int nb_salles;
     private String equipement;
     private String equipement_specail;
+    private String equipement_securite;
     private String image ;
     private String titre ;
     private String description;
@@ -31,12 +29,22 @@ public class Annonce {
     private boolean reduction_mois;
     private float prix;
     private String pays;
-    private String etat;
+    private boolean etat;
     private String libelle_de_voie;
     private String code_postale;
     private String heure_depart;
     private String heure_arriver;
 
+    @ManyToOne
+    Utilisateur utilisateur;
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
     public String getType_d_hebergement() {
         return type_d_hebergement;
     }
@@ -54,6 +62,13 @@ public class Annonce {
     }
 
 
+    public String getEquipement_securite() {
+        return equipement_securite;
+    }
+
+    public void setEquipement_securite(String equipement_securite) {
+        this.equipement_securite = equipement_securite;
+    }
 
     public int getNb_chamber() {
         return nb_chamber;
@@ -175,11 +190,11 @@ public class Annonce {
         this.pays = pays;
     }
 
-    public String getEtat() {
+    public boolean isEtat() {
         return etat;
     }
 
-    public void setEtat(String etat) {
+    public void setEtat(boolean etat) {
         this.etat = etat;
     }
 

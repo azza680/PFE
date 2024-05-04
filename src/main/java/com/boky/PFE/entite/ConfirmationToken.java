@@ -64,4 +64,6 @@ public class ConfirmationToken {
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
     }
+
+
 }
