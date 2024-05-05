@@ -1,6 +1,9 @@
 package com.boky.PFE.restController;
-import com.boky.PFE.entite.ConfirmationToken;
 import com.boky.PFE.service.ConfirmationTokenService;
+import com.boky.PFE.service.EmailUtilisateurService;
+import com.boky.PFE.util.NewPassword;
+import com.boky.PFE.util.UserCode;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.boky.PFE.entite.Utilisateur;
@@ -14,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,18 +24,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/Utilisateur")
 public class UtilisateurRestController {
     @Autowired
     UtilisateurRepository utilisateurRepository;
+    @Autowired
+    EmailUtilisateurService emailUtilisateurService;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     @PostMapping(value = "/register")
     ResponseEntity<?> AjouterUtilisateur (@RequestBody Utilisateur utilisateur)
     {
         return utilisateurService.AjouterUtilisateur(utilisateur);
     }
+
     @Autowired
     UtilisateurService utilisateurService;
     @Autowired
@@ -56,7 +62,6 @@ public class UtilisateurRestController {
     public ResponseEntity<Map<String, Object>> loginUtilisateur(@RequestBody Utilisateur utilisateur) {
         System.out.println("in login-utilisateur"+utilisateur);
         HashMap<String, Object> response = new HashMap<>();
-
         Utilisateur userFromDB = utilisateurRepository.findUtilisateurByEmail(utilisateur.getEmail());
         System.out.println("userFromDB+utilisateur"+userFromDB);
         if (userFromDB == null)
@@ -76,22 +81,24 @@ public class UtilisateurRestController {
             }
             else
             {
-                 if (!userFromDB.isEtat())
-                 {
-                response.put("message", "Account is not activated !");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-                }
-                String token = Jwts.builder()
-                        .claim("data", userFromDB)
-                        .signWith(SignatureAlgorithm.HS256, "SECRET")
-                        .compact();
-                response.put("token", token);
-                return ResponseEntity.status(HttpStatus.OK).body(response);
+                 if (!userFromDB.isEtat()) {
+                     response.put("message", "Account is not activated !");
+                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+                 }
+                System.out.println("erreur hna1");
+                    String token = Jwts.builder()
+                            .claim("data", userFromDB)
+                            .signWith(SignatureAlgorithm.HS256, "SECRET")
+                            .compact();
+                System.out.println("erreur hna");
+                    response.put("token", token);
+                    return ResponseEntity.status(HttpStatus.OK).body(response);
+
             }
 
         }
     }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Utilisateur ModifierUtilisateur(@RequestBody Utilisateur utilisateur, @PathVariable("id") Long id) {
         Utilisateur newUtilisateur = null;
@@ -161,29 +168,51 @@ public class UtilisateurRestController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/checkEmail")
+    public ResponseEntity<Map<String, Object>> resetPasswordEmail(@RequestBody Utilisateur utilisateur){
+        System.out.println("email ali mawjoud hawahouuuuuuuuuuu"+utilisateur.getEmail());
+        HashMap<String, Object> response = new HashMap<>();
+        Utilisateur user = utilisateurRepository.findUtilisateurByEmail(utilisateur.getEmail());
 
-    @PutMapping("/{userId}/photo")
-    public ResponseEntity<?> updateProfilePhoto(@PathVariable Long userId, @RequestParam("photo") MultipartFile photo) {
-        // Recherche de l'utilisateur par son ID
-        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(userId);
-        if (optionalUtilisateur.isPresent()) {
-            Utilisateur utilisateur = optionalUtilisateur.get();
-            try {
-                // Convertir la photo en tableau de bytes
-                byte[] photoBytes = photo.getBytes();
-                // Mettre à jour la photo dans l'attribut correspondant de l'entité Utilisateur
-                utilisateur.setPhoto(photoBytes);
-                // Enregistrer les modifications dans la base de données
-                utilisateurRepository.save(utilisateur);
-                return ResponseEntity.ok().build();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        System.out.println("userFromDB+utilisateur "+user);
+        if(user != null){
+            String code = UserCode.getCode();
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(utilisateur.getEmail());
+            mailMessage.setSubject("Code de réinitialisation de mot de passe");
+            mailMessage.setText("Votre code : "+code);
+            emailUtilisateurService.sendEmail(mailMessage);
+
+            user.getCode().setCode(code);
+            this.utilisateurService.ModifierUtilisateur(user, user.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+    }
+    // http://localhost:8080/resetPassword
+    @PostMapping("/resetPassword")
+    public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody NewPassword newPassword){
+        HashMap<String, Object> response = new HashMap<>();
+        Utilisateur user = utilisateurRepository.findUtilisateurByEmail(newPassword.getEmail());
+        if(user != null){
+            if(user.getCode().getCode().equals(newPassword.getCode())){
+                System.out.println("hatha mdp ali ja"+newPassword.getPassword());
+                String newmdp = this.bCryptPasswordEncoder.encode(newPassword.getPassword());
+                System.out.println("hatha newmdp"+newmdp);
+                user.setMdp(newmdp);
+                System.out.println("hatha mdp jdid"+user.getMdp());
+                utilisateurService.ModifierUtilisateur(user,user.getId());
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
     }
+
 }
 

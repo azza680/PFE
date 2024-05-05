@@ -1,6 +1,5 @@
 package com.boky.PFE.repository;
 
-import com.boky.PFE.entite.Client;
 import com.boky.PFE.entite.FemmeDeMenage;
 import org.springframework.data.jpa.repository.JpaRepository;
 

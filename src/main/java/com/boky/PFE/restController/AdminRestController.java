@@ -55,7 +55,6 @@ public class AdminRestController
     public ResponseEntity<Map<String, Object>> loginAdmin(@RequestBody Admin admin) {
         System.out.println("in login-admin"+admin);
         HashMap<String, Object> response = new HashMap<>();
-
         Admin userFromDB = adminRepository.findAdminByEmail(admin.getEmail());
         System.out.println("userFromDB+admin"+userFromDB);
         if (userFromDB == null) {

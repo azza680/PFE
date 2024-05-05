@@ -60,6 +60,7 @@ public class UtilisateurServiceImpl implements UtilisateurService
 
     @Override
     public List<Utilisateur> AfficherUtilisateur() {
+        System.out.println("wsol lhna");
         return utilisateurRepository.findAll();
     }
 

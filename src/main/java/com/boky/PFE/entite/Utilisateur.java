@@ -1,9 +1,6 @@
 package com.boky.PFE.entite;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +24,18 @@ public class Utilisateur
     private String role;
     private boolean etat;
     private byte[] photo;
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "code_id")
+    private Code code;
+
+    public Code getCode() {
+        return code;
+    }
+
+    public void setCode(Code code) {
+        this.code = code;
+    }
 
     public Long getId() {
         return id;
