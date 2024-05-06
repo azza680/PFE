@@ -19,9 +19,9 @@ public class AnnonceServiceImpl implements AnnonceService
     @Override
     public Annonce AjouterAnnonce(SaveAnnonce model) {
         Annonce annonce=SaveAnnonce.toEntity(model);
-        System.out.println("idUtilisateur"+model.getId_utilisateur());
-        Utilisateur utilisateur=utilisateurRepository.findById(model.getId_utilisateur()).get();
-        annonce.setUtilisateur(utilisateur);
+        System.out.println("idAnnonceur"+model.getId_annonceur());
+        Utilisateur utilisateur=utilisateurRepository.findById(model.getId_annonceur()).get();
+        annonce.setAnnonceur(utilisateur);
         return annonceRepository.save(annonce);
     }
 

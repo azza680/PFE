@@ -205,6 +205,11 @@ public class UtilisateurRestController {
                 user.setMdp(newmdp);
                 System.out.println("hatha mdp jdid"+user.getMdp());
                 utilisateurService.ModifierUtilisateur(user,user.getId());
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setTo(user.getEmail());
+                mailMessage.setSubject("Réinitialisation de mot de passe");
+                mailMessage.setText("Votre mot de passe a été changé avec succès !");
+                emailUtilisateurService.sendEmail(mailMessage);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);

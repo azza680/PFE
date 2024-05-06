@@ -27,7 +27,7 @@ public class SaveAnnonce
     private String code_postale;
     private String heure_depart;
     private String heure_arriver;
-    private long id_utilisateur;
+    private long id_annonceur;
     public static Annonce toEntity(SaveAnnonce model)
     {
         if(model == null)
@@ -236,12 +236,12 @@ public class SaveAnnonce
         this.heure_arriver = heure_arriver;
     }
 
-    public long getId_utilisateur() {
-        return id_utilisateur;
+    public long getId_annonceur() {
+        return id_annonceur;
     }
 
-    public void setId_utilisateur(long id_utilisateur) {
-        this.id_utilisateur = id_utilisateur;
+    public void setId_annonceur(long id_annonceur) {
+        this.id_annonceur = id_annonceur;
     }
 
     public String getEquipement_securite() {

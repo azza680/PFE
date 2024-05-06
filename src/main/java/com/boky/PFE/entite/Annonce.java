@@ -36,15 +36,16 @@ public class Annonce {
     private String heure_arriver;
 
     @ManyToOne
-    Utilisateur utilisateur;
+    Utilisateur annonceur;
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public Utilisateur getAnnonceur() {
+        return annonceur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setAnnonceur(Utilisateur annonceur) {
+        this.annonceur = annonceur;
     }
+
     public String getType_d_hebergement() {
         return type_d_hebergement;
     }
