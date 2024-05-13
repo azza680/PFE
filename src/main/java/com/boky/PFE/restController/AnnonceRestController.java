@@ -1,6 +1,8 @@
 package com.boky.PFE.restController;
 
 import com.boky.PFE.entite.Annonce;
+import com.boky.PFE.entite.Reservation;
+import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.service.AnnonceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +45,16 @@ public class AnnonceRestController
         Optional<Annonce> annonce = annonceService.getAnnonceById(id);
         return annonce;
     }
+    @RequestMapping("get-all-by-id-annonceur/{id}")
+    public List<Annonce> listeAnnonceByAnnonceur(@PathVariable  Long id) {
+        return annonceService.listeAnnonceByAnnonceur(id);
+    }
+    @RequestMapping("get-utilisateur/{id}")
+    public Utilisateur UtilisateurByAnnonceur(@PathVariable  Long id) {
+        return annonceService.UtilisateurByAnnonceur(id);
+    }
+
+
+
+
 }

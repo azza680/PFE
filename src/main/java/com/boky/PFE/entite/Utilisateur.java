@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 @Entity
 @AllArgsConstructor
@@ -17,17 +18,17 @@ public class Utilisateur
     private String nom ;
     private String prenom ;
     private String email ;
-    private Date date_de_naissance;
+    private String date_de_naissance;
     private String telephone ;
     private String adresse ;
     private String mdp ;
     private String role;
     private boolean etat;
-    private byte[] photo;
+    private String photo ="assets/img/istockphoto-1209654046-612x612.jpg";
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "code_id")
-    private Code code;
+    private Code code = new Code();
 
     public Code getCode() {
         return code;
@@ -101,11 +102,11 @@ public class Utilisateur
         this.etat = etat;
     }
 
-    public Date getDate_de_naissance() {
+    public String getDate_de_naissance() {
         return date_de_naissance;
     }
 
-    public void setDate_de_naissance(Date date_de_naissance) {
+    public void setDate_de_naissance(String date_de_naissance) {
         this.date_de_naissance = date_de_naissance;
     }
 
@@ -117,11 +118,11 @@ public class Utilisateur
         this.role = role;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 }

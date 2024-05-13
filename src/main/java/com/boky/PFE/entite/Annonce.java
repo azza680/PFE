@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,23 +21,46 @@ public class Annonce {
     private int nb_chamber;
     private int nb_lits;
     private int nb_salles;
-    private String equipement;
-    private String equipement_specail;
-    private String equipement_securite;
+    private List<String> equipement; // Changez le type de données en List<String>
+
+
+    private List<String> equipement_specail;
+
+
+    private List<String> equipement_securite;
+    @Column(length = 200000)
     private String image ;
     private String titre ;
     private String description;
-    private String mode_de_confirmation;
-    private String frais_de_service;
+
     private boolean reduction_semaine;
     private boolean reduction_mois;
     private float prix;
     private String pays;
     private boolean etat;
-    private String libelle_de_voie;
+    private String ville;
     private String code_postale;
     private String heure_depart;
     private String heure_arriver;
+    private String date;
+    private boolean verification;
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        this.date = now.format(formatter);
+        this.etat=false;
+        this.verification=false;
+    }
+
+    public boolean isVerification() {
+        return verification;
+    }
+
+    public void setVerification(boolean verification) {
+        this.verification = verification;
+    }
 
     @ManyToOne
     Utilisateur annonceur;
@@ -63,13 +90,6 @@ public class Annonce {
     }
 
 
-    public String getEquipement_securite() {
-        return equipement_securite;
-    }
-
-    public void setEquipement_securite(String equipement_securite) {
-        this.equipement_securite = equipement_securite;
-    }
 
     public int getNb_chamber() {
         return nb_chamber;
@@ -103,21 +123,7 @@ public class Annonce {
         this.nb_salles = nb_salles;
     }
 
-    public String getEquipement() {
-        return equipement;
-    }
 
-    public void setEquipement(String equipement) {
-        this.equipement = equipement;
-    }
-
-    public String getEquipement_specail() {
-        return equipement_specail;
-    }
-
-    public void setEquipement_specail(String equipement_specail) {
-        this.equipement_specail = equipement_specail;
-    }
 
     public String getImage() {
         return image;
@@ -143,21 +149,6 @@ public class Annonce {
         this.description = description;
     }
 
-    public String getMode_de_confirmation() {
-        return mode_de_confirmation;
-    }
-
-    public void setMode_de_confirmation(String mode_de_confirmation) {
-        this.mode_de_confirmation = mode_de_confirmation;
-    }
-
-    public String getFrais_de_service() {
-        return frais_de_service;
-    }
-
-    public void setFrais_de_service(String frais_de_service) {
-        this.frais_de_service = frais_de_service;
-    }
 
     public boolean isReduction_semaine() {
         return reduction_semaine;
@@ -199,12 +190,45 @@ public class Annonce {
         this.etat = etat;
     }
 
-    public String getLibelle_de_voie() {
-        return libelle_de_voie;
+
+    public List<String> getEquipement() {
+        return equipement;
     }
 
-    public void setLibelle_de_voie(String libelle_de_voie) {
-        this.libelle_de_voie = libelle_de_voie;
+    public void setEquipement(List<String> equipement) {
+        this.equipement = equipement;
+    }
+
+    public List<String> getEquipement_specail() {
+        return equipement_specail;
+    }
+
+    public void setEquipement_specail(List<String> equipement_specail) {
+        this.equipement_specail = equipement_specail;
+    }
+
+    public List<String> getEquipement_securite() {
+        return equipement_securite;
+    }
+
+    public void setEquipement_securite(List<String> equipement_securite) {
+        this.equipement_securite = equipement_securite;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getCode_postale() {

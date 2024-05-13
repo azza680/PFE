@@ -20,8 +20,7 @@ public class Code {
     @Column(name = "code")
     private String Code;
 
-    @OneToOne()
-    private Utilisateur user;
+
 
     public Long getId() {
         return id;
@@ -39,11 +38,5 @@ public class Code {
         Code = code;
     }
 
-    public Utilisateur getUser() {
-        return user;
-    }
 
-    public void setUser(Utilisateur user) {
-        this.user = user;
-    }
 }

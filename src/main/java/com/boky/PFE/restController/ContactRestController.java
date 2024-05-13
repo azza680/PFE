@@ -1,8 +1,10 @@
 package com.boky.PFE.restController;
 
 import com.boky.PFE.entite.Contact;
+import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.ContactRepository;
 import com.boky.PFE.service.ContactService;
+import com.boky.PFE.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ public class ContactRestController
     }
     @Autowired
     ContactService contactService;
+    @Autowired
+    EmailService emailService;
     @RequestMapping(method = RequestMethod.GET)
     public List<Contact> AfficherContact()
     {
@@ -43,5 +47,36 @@ public class ContactRestController
 
         Optional<Contact> contact = contactService.getContactById(id);
         return contact;
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Contact ModifierContact(@RequestBody Contact contact, @PathVariable("id") Long id) {
+        Contact newContact = null;
+
+            Contact contact1 = contactRepository.findById(id).get();
+            var contactid = contact.getId();
+            var email = contact.getEmail();
+            var sujet = contact.getSujet();
+            var msg = contact.getMsg();
+            var telephone = contact.getTelephone();
+            var repondre = contact.getRepondre();
+            contact1.setId(contactid);
+            contact1.setEmail(email);
+            contact1.setSujet(sujet);
+            contact1.setMsg(msg);
+            contact1.setTelephone(telephone);
+            contact1.setRepondre(repondre);
+
+
+
+//mta3 yjih mail fih l etat
+
+                //ternary expression
+
+                emailService.SendSimpleMessage(contact1.getEmail(),"Réponse concernant le sujet :"+contact1.getSujet() , contact1.getRepondre());
+
+
+            newContact = contactRepository.save(contact1);
+
+        return newContact;
     }
 }

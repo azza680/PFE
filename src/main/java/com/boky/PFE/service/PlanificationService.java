@@ -1,15 +1,19 @@
 package com.boky.PFE.service;
 
+import com.boky.PFE.Beans.SavePlanification;
 import com.boky.PFE.entite.Planification;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PlanificationService
 {
-    Planification AjouterPlanification(Planification planification);
+    Planification AjouterPlanification (SavePlanification model);
     Planification ModifierPlanification(Planification planification);
     List<Planification> AfficherPlanification();
     void SupprimerPlanification (Long id);
     Optional<Planification> getPlanificationById(Long id);
+
+    List<Planification> listePlanificationByFdm(Long id);
 }

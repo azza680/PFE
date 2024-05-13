@@ -1,9 +1,7 @@
 package com.boky.PFE.service;
 
-import com.boky.PFE.entite.Annonceur;
 import com.boky.PFE.entite.ConfirmationToken;
 import com.boky.PFE.entite.Utilisateur;
-import com.boky.PFE.repository.AnnonceurRepository;
 import com.boky.PFE.repository.ConfirmationTokenRepository;
 import com.boky.PFE.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,18 +80,7 @@ public class UtilisateurServiceImpl implements UtilisateurService
 
 
 
-    @Override
-    public void modifierPhotoDeProfil(Long userId, MultipartFile photo) throws IOException, UtilisateurNotFoundException {
-        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(userId);
-        if (optionalUtilisateur.isPresent()) {
-            Utilisateur utilisateur = optionalUtilisateur.get();
-            byte[] photoBytes = photo.getBytes();
-            utilisateur.setPhoto(photoBytes);
-            utilisateurRepository.save(utilisateur);
-        } else {
-            throw new UtilisateurNotFoundException("Utilisateur non trouvé avec l'ID : " + userId);
-        }
-    }
+
 
     @Override
     public ResponseEntity<?> ConfirmationEmail(String confirmationEmail) {

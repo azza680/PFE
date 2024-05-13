@@ -93,6 +93,7 @@ public class UtilisateurRestController {
                             .compact();
                 System.out.println("erreur hna");
                     response.put("token", token);
+                    response.put("role",userFromDB.getRole());
                     return ResponseEntity.status(HttpStatus.OK).body(response);
 
             }
@@ -113,6 +114,7 @@ public class UtilisateurRestController {
             var adresse = utilisateur.getAdresse();
             var mdp = utilisateur.getMdp();
             var role = utilisateur.getRole();
+            var photo=utilisateur.getPhoto();
             utilisateur1.setId(utilisateurId);
             utilisateur1.setNom(nom);
             utilisateur1.setPrenom(prenom);
@@ -122,6 +124,7 @@ public class UtilisateurRestController {
             utilisateur1.setAdresse(adresse);
             utilisateur1.setMdp(mdp);
             utilisateur1.setRole(role);
+            utilisateur1.setPhoto(photo);
 
 
 //mta3 yjih mail fih l etat
@@ -146,28 +149,7 @@ public class UtilisateurRestController {
     public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken) {
         return utilisateurService.ConfirmationEmail(confirmationToken);
     }
-    @PostMapping("/{userId}/photo")
-    public ResponseEntity<?> uploadProfilePhoto(@PathVariable Long userId, @RequestParam("photo") MultipartFile photo) {
-        // Recherche de l'utilisateur par son ID
-        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(userId);
-        if (optionalUtilisateur.isPresent()) {
-            Utilisateur utilisateur = optionalUtilisateur.get();
-            try {
-                // Convertir la photo en tableau de bytes
-                byte[] photoBytes = photo.getBytes();
-                // Stocker la photo dans l'attribut correspondant de l'entité Utilisateur
-                utilisateur.setPhoto(photoBytes);
-                // Enregistrer les modifications dans la base de données
-                utilisateurRepository.save(utilisateur);
-                return ResponseEntity.ok().build();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
     @PostMapping("/checkEmail")
     public ResponseEntity<Map<String, Object>> resetPasswordEmail(@RequestBody Utilisateur utilisateur){
         System.out.println("email ali mawjoud hawahouuuuuuuuuuu"+utilisateur.getEmail());

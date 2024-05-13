@@ -18,6 +18,7 @@ public class Contact {
     private String sujet;
     private String msg;
     private String telephone;
+    private String repondre;
     private String date;
 
     @PrePersist
@@ -25,6 +26,7 @@ public class Contact {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         this.date = now.format(formatter);
+        this.repondre=null;
 }
     public Long getId() {
         return id;
@@ -32,6 +34,14 @@ public class Contact {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getRepondre() {
+        return repondre;
+    }
+
+    public void setRepondre(String repondre) {
+        this.repondre = repondre;
     }
 
     public String getSujet() {

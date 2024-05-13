@@ -2,6 +2,7 @@ package com.boky.PFE.restController;
 
 
 import com.boky.PFE.entite.Admin;
+import com.boky.PFE.entite.Annonce;
 import com.boky.PFE.entite.Planification;
 import com.boky.PFE.repository.PlanificationRepository;
 import com.boky.PFE.service.PlanificationService;
@@ -22,10 +23,9 @@ public class PlanificationRestController
     @Autowired
     PlanificationRepository planificationRepository;
     @RequestMapping(method = RequestMethod.POST )
-    public ResponseEntity<Planification> AjouterPlanification (@RequestBody Planification planification)
+    public Planification AjouterPlanification (@RequestBody com.boky.PFE.Beans.SavePlanification model)
     {
-            Planification savedUser = planificationRepository.save(planification);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        return planificationService.AjouterPlanification(model);
 
     }
     @Autowired
@@ -53,4 +53,9 @@ public class PlanificationRestController
         Optional<Planification> planification= planificationService.getPlanificationById(id);
         return planification;
     }
+    @RequestMapping("get-all-by-id-FDM/{id}")
+    public List<Planification> listePlanificationByFdm(@PathVariable  Long id) {
+        return planificationService.listePlanificationByFdm(id);
+    }
+
 }
