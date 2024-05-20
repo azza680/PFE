@@ -23,8 +23,16 @@ public class Admin
     private String email ;
     private String mdp ;
     private String role ;
+    private String photo ="assets/images/istockphoto-1209654046-612x612.jpg";
 
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public Long getId() {
         return id;

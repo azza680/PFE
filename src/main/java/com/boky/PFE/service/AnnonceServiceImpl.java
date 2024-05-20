@@ -77,7 +77,7 @@ EmailService emailService;
     public List<Annonce> listeAnnonceByAnnonceur(Long id) {
         return annonceRepository.findByAnnonceurId(id);
     }
-    public Utilisateur UtilisateurByAnnonceur(@PathVariable  Long id) {
+    public Utilisateur UtilisateurByAnnonceur(  Long id) {
         Optional<Annonce> annonce =  annonceRepository.findById(id);
         return annonce.get().getAnnonceur();
     }

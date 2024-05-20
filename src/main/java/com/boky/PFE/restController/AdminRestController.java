@@ -1,6 +1,7 @@
 package com.boky.PFE.restController;
 
 import com.boky.PFE.entite.Admin;
+import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.AdminRepository;
 import com.boky.PFE.service.AdminService;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -80,10 +81,29 @@ public class AdminRestController
         }
     }
     @RequestMapping(value = "/{id}" ,method = RequestMethod.PUT)
-    public Admin ModifierAdmin(@PathVariable("id")Long id, @RequestBody Admin admin){
-        admin.setMdp(this.bCryptPasswordEncoder.encode(admin.getMdp()));
-        Admin newAdmin = adminService.ModifierAdmin(admin);
+    public Admin ModifierAdmin(@PathVariable("id")Long id, @RequestBody Admin admin)
+    {
+        Admin newAdmin = null;
+            Admin admin1 = adminRepository.findById(id).get();
+            var adminId = admin.getId();
+            var nom = admin.getNom();
+            var prenom = admin.getPrenom();
+            var email = admin.getEmail();
+            var mdp = admin.getMdp();
+            var role = admin.getRole();
+            var photo=admin.getPhoto();
+            admin1.setId(adminId);
+            admin1.setNom(nom);
+            admin1.setPrenom(prenom);
+            admin1.setEmail(email);
+            admin1.setMdp(mdp);
+            admin1.setRole(role);
+            admin1.setPhoto(photo);
+
+            admin.setMdp(this.bCryptPasswordEncoder.encode(admin1.getMdp()));
+        newAdmin= adminRepository.save(admin1);
         return newAdmin;
+
     }
     @RequestMapping(value = "/{id}" , method = RequestMethod.GET)
     public Optional<Admin> getAdminById(@PathVariable("id") long id){

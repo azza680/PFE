@@ -23,6 +23,11 @@ public class ReservationRestController
         System.out.println("reserverRq"+model);
         return reservationService.AjouterReservation(model);
     }
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Reservation> AfficherReservation()
+    {
+        return reservationService.AfficherReservation();
+    }
     @RequestMapping("get-all-by-id-utilisateur/{id}")
     public List<Reservation> listReservationByUtilisateur(@PathVariable Long id){
         return reservationService.listeReservationByUtilisateur(id);
