@@ -26,6 +26,7 @@ public class Utilisateur
     private boolean etat;
     private String photo ="assets/img/istockphoto-1209654046-612x612.jpg";
 
+
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "code_id")
     private Code code = new Code();

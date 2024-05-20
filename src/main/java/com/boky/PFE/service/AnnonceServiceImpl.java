@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 @Service
 public class AnnonceServiceImpl implements AnnonceService
@@ -34,9 +35,28 @@ public class AnnonceServiceImpl implements AnnonceService
         }
     }
 
-
+@Autowired
+EmailService emailService;
     @Override
     public Annonce ModifierAnnonce(Annonce annonce) {
+        System.out.println("hatha annonce.getAnnonceur() "+annonce.getAnnonceur());
+        Utilisateur annonceur = this.UtilisateurByAnnonceur(annonce.getId());
+        System.out.println("hatha annonceur "+annonceur);
+        annonce.setAnnonceur(annonceur);
+        System.out.println("hatha annonce "+annonce);
+        Optional<Annonce> annonceOptional = this.getAnnonceById(annonce.getId());
+        if (!annonceOptional.isPresent()) {
+            throw new NoSuchElementException("Annonce non trouvée avec l'id: " + annonce.getId());
+        }
+
+        Annonce annonce1 = annonceOptional.get();
+        if (annonce1.isEtat() != annonce.isEtat() && annonce1.isVerification()) {
+            String etat = annonce.isEtat() ? "mise en ligne" : "hors ligne";
+
+            emailService.SendSimpleMessage(annonceur.getEmail(),
+                    "L'etat de votre Annonce " + annonce.getTitre(),
+                    "Votre annonce a été " + etat);
+        }
         return annonceRepository.save(annonce);
     }
 

@@ -28,7 +28,7 @@ public class Annonce {
 
 
     private List<String> equipement_securite;
-    @Column(length = 200000)
+
     private String image ;
     private String titre ;
     private String description;
@@ -44,14 +44,24 @@ public class Annonce {
     private String heure_arriver;
     private String date;
     private boolean verification;
+    private boolean accorde_user;
 
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         this.date = now.format(formatter);
-        this.etat=false;
+        this.accorde_user=true;
+        this.etat=true;
         this.verification=false;
+    }
+
+    public boolean isAccorde_user() {
+        return accorde_user;
+    }
+
+    public void setAccorde_user(boolean accorde_user) {
+        this.accorde_user = accorde_user;
     }
 
     public boolean isVerification() {
@@ -62,7 +72,8 @@ public class Annonce {
         this.verification = verification;
     }
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "annonceur_id")
     Utilisateur annonceur;
 
     public Utilisateur getAnnonceur() {

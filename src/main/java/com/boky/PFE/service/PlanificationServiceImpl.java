@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 @Service
 public class PlanificationServiceImpl implements PlanificationService
@@ -32,6 +34,8 @@ public class PlanificationServiceImpl implements PlanificationService
 
     @Override
     public Planification ModifierPlanification(Planification planification) {
+        Utilisateur fmd = this.FdmByPlanning(planification.getId());
+        planification.setFdm(fmd);
         return planificationRepository.save(planification);
     }
 
@@ -52,5 +56,10 @@ public class PlanificationServiceImpl implements PlanificationService
 @Override
     public List<Planification> listePlanificationByFdm(Long id) {
         return planificationRepository.findByFdmId(id);
+    }
+@Override
+    public Utilisateur FdmByPlanning(  Long id) {
+        Optional<Planification> planification =  planificationRepository.findById(id);
+        return planification.get().getFdm();
     }
 }

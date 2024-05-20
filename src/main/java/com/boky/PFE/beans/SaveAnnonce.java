@@ -35,6 +35,7 @@ public class SaveAnnonce {
     private String heure_arriver;
     private String date;
     private boolean verification;
+    private boolean accorde_user;
     private long id_annonceur;
 
     public static Annonce toEntity(SaveAnnonce model) {
@@ -59,13 +60,24 @@ public class SaveAnnonce {
         annonce.setReduction_mois(model.isReduction_mois());
         annonce.setPrix(model.getPrix());
         annonce.setPays(model.getPays());
+        annonce.setEtat(model.isEtat());
         annonce.setVille(model.getVille());
         annonce.setCode_postale(model.getCode_postale());
         annonce.setHeure_depart(model.getHeure_depart());
         annonce.setHeure_arriver(annonce.getHeure_arriver());
         annonce.setVerification(annonce.isVerification());
+        annonce.setAccorde_user(annonce.isAccorde_user());
         annonce.setDate(annonce.getDate());
         return annonce;
+    }
+
+
+    public boolean isAccorde_user() {
+        return accorde_user;
+    }
+
+    public void setAccorde_user(boolean accorde_user) {
+        this.accorde_user = accorde_user;
     }
 
     public boolean isVerification() {

@@ -14,7 +14,7 @@ public interface UtilisateurService {
     void SupprimerUtilisateur (Long id);
     Optional<Utilisateur> getUtilisateurById(Long id);
 
-
+    List<Utilisateur> getUtilisateurByRole(String role);
     ResponseEntity<?> ConfirmationEmail (String confirmationEmail);
 
 }

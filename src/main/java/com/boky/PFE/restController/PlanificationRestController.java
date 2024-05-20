@@ -4,6 +4,7 @@ package com.boky.PFE.restController;
 import com.boky.PFE.entite.Admin;
 import com.boky.PFE.entite.Annonce;
 import com.boky.PFE.entite.Planification;
+import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.PlanificationRepository;
 import com.boky.PFE.service.PlanificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,10 @@ public class PlanificationRestController
     @RequestMapping("get-all-by-id-FDM/{id}")
     public List<Planification> listePlanificationByFdm(@PathVariable  Long id) {
         return planificationService.listePlanificationByFdm(id);
+    }
+    @RequestMapping("get-utilisateur/{id}")
+    public Utilisateur FdmByPlanning(@PathVariable  Long id) {
+        return planificationService.FdmByPlanning(id);
     }
 
 }

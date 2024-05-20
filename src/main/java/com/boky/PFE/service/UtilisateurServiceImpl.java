@@ -5,11 +5,13 @@ import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.ConfirmationTokenRepository;
 import com.boky.PFE.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +31,11 @@ public class UtilisateurServiceImpl implements UtilisateurService
     @Override
     public ResponseEntity<Object> AjouterUtilisateur(Utilisateur utilisateur) {
         Utilisateur existingUser = utilisateurRepository.findByEmail(utilisateur.getEmail());
+        HashMap<String, Object> response = new HashMap<>();
         if (existingUser!=null) {
-            return ResponseEntity.badRequest().body("Error: Email is already in use!");
+            response.put("message", "Email is already in use!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
         }
         //  client.setMdp(this.bCryptPasswordEncoder.encode(client.getMdp()));
         utilisateur.setMdp(this.bCryptPasswordEncoder.encode(utilisateur.getMdp()));
@@ -99,5 +104,9 @@ public class UtilisateurServiceImpl implements UtilisateurService
 
         return ResponseEntity.badRequest().body("Error: Couldn't verify email");
     }
+    @Override
+public List<Utilisateur> getUtilisateurByRole(String role) {
+    return utilisateurRepository.findUtilisateursByRole(role);
+}
 
 }

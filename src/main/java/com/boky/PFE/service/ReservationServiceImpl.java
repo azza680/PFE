@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,17 +22,33 @@ public class ReservationServiceImpl implements  ReservationService
 
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    EmailService emailService;
     @Override
-    public Reservation AjouterReservation(ReservationRQ reservationRQ){
-        Optional<Annonce> annonce = annonceService.getAnnonceById(reservationRQ.getId_annonce());
-        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(reservationRQ.getId_client());
+    public Reservation AjouterReservation(ReservationRQ model){
+        Reservation reservation = ReservationRQ.toEntity(model);
+        Optional<Annonce> annonce = annonceService.getAnnonceById(model.getId_annonce());
+        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(model.getId_client());
+        Utilisateur annonceur = annonceService.UtilisateurByAnnonceur(annonce.get().getId());
+
         if (annonce.isPresent() && utilisateur.isPresent()) {
-            Reservation reservation = new Reservation();
+
             reservation.setAnnonce(annonce.get());
             reservation.setUtilisateur(utilisateur.get());
+            emailService.SendSimpleMessage(
+                    annonceur.getEmail(),
+                    "Nouvelle réservation pour votre annonce",
+                    "Bonjour,\n\n" +
+                            "Nous vous informons que votre annonce \"" + annonce.get().getTitre() + "\" a été réservée. " +
+                            "Veuillez consulter votre profil pour confirmer la réservation.\n\n" +
+                            "Cordialement,\n" +
+                            "L'équipe de gestion des réservations"
+            );
+
             return reservationRepository.save(reservation);}
         else{
             return null;}
+
     }
 
     @Override
@@ -42,6 +59,51 @@ public class ReservationServiceImpl implements  ReservationService
     @Override
     public List<Reservation> listeReservationByUtilisateur(Long id) {
         return reservationRepository.findByutilisateurId(id);
+    }
+
+    @Override
+    public Utilisateur ClientByReservation( Long id) {
+        Optional<Reservation> reservation =  reservationRepository.findById(id);
+        return reservation.get().getUtilisateur();
+    }
+    @Override
+    public Annonce AnnonceByReservation( Long id) {
+        Optional<Reservation> reservation =  reservationRepository.findById(id);
+        return reservation.get().getAnnonce();
+    }
+
+    @Override
+    public Reservation ModifierReservation(Reservation reservation) {
+
+        Utilisateur client = this.ClientByReservation(reservation.getId());
+        Annonce annonce = this.AnnonceByReservation(reservation.getId());
+        reservation.setUtilisateur(client);
+        reservation.setAnnonce(annonce);
+        Optional<Reservation> reservationOptional = this.getReservationById(reservation.getId());
+        if (!reservationOptional.isPresent()) {
+            throw new NoSuchElementException("Reservation non trouvée avec l'id: " + reservation.getId());
+        }
+        reservation.setEtat(true);
+
+            String etat = reservation.isConfirmation() ? "acceptée" : "non confirmée";
+
+            emailService.SendSimpleMessage(
+                    client.getEmail(),
+                    "Réponse concernant votre réservation de maison - " + annonce.getTitre(),
+                    "Bonjour,\n\n" +
+                            "Nous vous informons que votre réservation pour la maison \"" + annonce.getTitre() + "\" a été " + etat + ".\n\n" +
+                            "Merci de consulter votre profil pour plus de détails.\n\n" +
+                            "Cordialement,\n" +
+                            "L'équipe de gestion des réservations"
+            );
+
+
+
+        return reservationRepository.save(reservation);
+    }
+    @Override
+    public Optional<Reservation> getReservationById(Long id) {
+        return reservationRepository.findById(id);
     }
 
 }

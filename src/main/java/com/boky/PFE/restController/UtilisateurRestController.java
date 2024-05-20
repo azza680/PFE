@@ -200,6 +200,28 @@ public class UtilisateurRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+    @RequestMapping("/send_email")
+    public ResponseEntity<Map<String, Object>> SendEmail(@RequestBody Utilisateur utilisateur){
+        System.out.println("email ali mawjoud hawahouuuuuuuuuuu"+utilisateur.getEmail());
+        HashMap<String, Object> response = new HashMap<>();
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(utilisateur.getEmail());
+        mailMessage.setSubject("Mettez votre annonce en ligne");
+        mailMessage.setText("Il ne vous reste plus que quelques détails à confirmer pour finaliser votre annonce." +
+                " Plus vite vous aurez terminé, plus les voyageurs pourront commencer à réserver rapidement !" +
+                " N'attendez plus.");
+        emailUtilisateurService.sendEmail(mailMessage);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
+
+
+    }
+    @GetMapping("/role")
+    public List<Utilisateur> getUtilisateurByRole(@RequestParam String role) {
+        return utilisateurRepository.findUtilisateurByRole(role);
+    }
+
 
 }
 
