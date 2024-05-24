@@ -89,5 +89,9 @@ public class EvaluationServiceImpl implements EvaluationService
     public void SupprimerEvaluation(Long id) {
         evaluationRepositrory.deleteById(id);
     }
+    @Override
+    public List<Evaluation> listEvaluationByAnnonce( Long id) {
+        return evaluationRepositrory.findByannonceId(id);
+    }
 
 }

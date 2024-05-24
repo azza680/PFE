@@ -59,4 +59,8 @@ public class EvaluationRestController
         evaluationService.SupprimerEvaluation(id);
 
     }
+    @RequestMapping("get-all-by-id-annonce/{id}")
+    public List<Evaluation> listEvaluationByAnnonce(@PathVariable Long id){
+        return evaluationService.listEvaluationByAnnonce(id);
+    }
 }

@@ -25,4 +25,5 @@ public interface EvaluationService
     Evaluation ModifierEvaluation(Evaluation evaluation);
 
     Optional<Evaluation> getEvaluationById(Long id);
+    List<Evaluation> listEvaluationByAnnonce( Long id);
 }
