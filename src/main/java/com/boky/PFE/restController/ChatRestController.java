@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value = "/Chat")
+@RequestMapping(value = "/chat")
 public class ChatRestController
 {
     @Autowired
