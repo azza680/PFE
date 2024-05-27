@@ -26,4 +26,5 @@ public interface EvaluationService
 
     Optional<Evaluation> getEvaluationById(Long id);
     List<Evaluation> listEvaluationByAnnonce( Long id);
+    void supprimerEvaluationsParAnnonce(Long annonceId);
 }

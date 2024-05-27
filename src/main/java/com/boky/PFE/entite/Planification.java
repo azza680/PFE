@@ -14,6 +14,7 @@ public class Planification
     private Long id;
     private String heureDisponible;
     private String jour;
+    private String gouvernorat;
     private String adresse;
     private String prixParHeure;
     @ManyToOne
@@ -65,5 +66,13 @@ public class Planification
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    public String getGouvernorat() {
+        return gouvernorat;
+    }
+
+    public void setGouvernorat(String gouvernorat) {
+        this.gouvernorat = gouvernorat;
     }
 }

@@ -51,4 +51,8 @@ public class ReservationRestController
         Reservation newReservation = reservationService.ModifierReservation(reservation);
         return newReservation;
     }
+    @RequestMapping("get-all-by-id-annonceur/{id}")
+    public List<Reservation> listReservationByAnnonceur(@PathVariable Long id) {
+    return reservationService.listReservationByAnnonceur(id);
+}
 }

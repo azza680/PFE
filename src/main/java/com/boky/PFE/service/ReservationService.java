@@ -24,4 +24,5 @@ public interface ReservationService
     Reservation ModifierReservation(Reservation reservation);
 
     Optional<Reservation> getReservationById(Long id);
+    List<Reservation> listReservationByAnnonceur( Long id);
 }

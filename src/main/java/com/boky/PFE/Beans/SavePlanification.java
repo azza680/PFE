@@ -12,6 +12,7 @@ public class SavePlanification
     private String jour;
     private String adresse;
     private String prixParHeure;
+    private String gouvernorat;
     private long id_fdm;
     public static Planification toEntity(SavePlanification model) {
         if (model == null) {
@@ -23,9 +24,19 @@ public class SavePlanification
         planification.setJour(model.getJour());
         planification.setAdresse(model.getAdresse());
         planification.setPrixParHeure(model.getPrixParHeure());
+        planification.setGouvernorat(model.getGouvernorat());
 
         return planification;
     }
+
+    public String getGouvernorat() {
+        return gouvernorat;
+    }
+
+    public void setGouvernorat(String gouvernorat) {
+        this.gouvernorat = gouvernorat;
+    }
+
     public Long getId() {
         return id;
     }

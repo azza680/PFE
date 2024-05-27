@@ -45,6 +45,8 @@ public class Annonce {
     private String date;
     private boolean verification;
     private boolean accorde_user;
+    @ManyToOne
+    Utilisateur annonceur;
 
     @PrePersist
     protected void onCreate() {
@@ -72,9 +74,7 @@ public class Annonce {
         this.verification = verification;
     }
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "annonceur_id")
-    Utilisateur annonceur;
+
 
     public Utilisateur getAnnonceur() {
         return annonceur;

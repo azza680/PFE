@@ -5,6 +5,7 @@ import com.boky.PFE.entite.Reservation;
 import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.service.AnnonceService;
 import com.boky.PFE.service.EmailUtilisateurService;
+import com.boky.PFE.service.EvaluationService;
 import com.boky.PFE.util.UserCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,12 @@ public class AnnonceRestController
     {
         return annonceService.AfficherAnnonce();
     }
+    @Autowired
+    EvaluationService evaluationService;
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE )
 
     public void SupprimerAnnonce(@PathVariable("id") Long id){
+        evaluationService.supprimerEvaluationsParAnnonce(id);
         annonceService.SupprimerAnnonce(id);
 
     }

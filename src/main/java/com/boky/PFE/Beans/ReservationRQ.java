@@ -1,6 +1,5 @@
 package com.boky.PFE.Beans;
 
-import com.boky.PFE.entite.Annonce;
 import com.boky.PFE.entite.Reservation;
 
 import java.util.Date;

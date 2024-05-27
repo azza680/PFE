@@ -9,6 +9,8 @@ import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.EvaluationRepositrory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -92,6 +94,14 @@ public class EvaluationServiceImpl implements EvaluationService
     @Override
     public List<Evaluation> listEvaluationByAnnonce( Long id) {
         return evaluationRepositrory.findByannonceId(id);
+    }
+    @Override
+    @Transactional
+    public void supprimerEvaluationsParAnnonce(Long annonceId) {
+        List<Evaluation> evaluations = evaluationRepositrory.findByannonceId(annonceId);
+        for (Evaluation evaluation : evaluations) {
+            evaluationRepositrory.delete(evaluation);
+        }
     }
 
 }

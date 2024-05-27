@@ -8,6 +8,7 @@ import com.boky.PFE.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -104,6 +105,20 @@ public class ReservationServiceImpl implements  ReservationService
     @Override
     public Optional<Reservation> getReservationById(Long id) {
         return reservationRepository.findById(id);
+    }
+    @Override
+    public List<Reservation> listReservationByAnnonceur(Long idAnnonceur) {
+        // Récupérer toutes les annonces de l'annonceur
+        List<Annonce> annonces = annonceService.listeAnnonceByAnnonceur(idAnnonceur);
+        List<Reservation> reservations = new ArrayList<>();
+
+        // Pour chaque annonce, récupérer les réservations associées
+        for (Annonce annonce : annonces) {
+            List<Reservation> reservationsAnnonce = reservationRepository.findByAnnonceId(annonce.getId());
+            reservations.addAll(reservationsAnnonce);
+        }
+
+        return reservations;
     }
 
 }

@@ -4,6 +4,7 @@ import com.boky.PFE.entite.Annonce;
 import com.boky.PFE.entite.Reservation;
 import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.AnnonceRepository;
+import com.boky.PFE.repository.EvaluationRepositrory;
 import com.boky.PFE.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ EmailService emailService;
 
     @Override
     public void SupprimerAnnonce(Long id) {
+
         annonceRepository.deleteById(id);
     }
 

@@ -207,10 +207,16 @@ public class UtilisateurRestController {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(utilisateur.getEmail());
-        mailMessage.setSubject("Mettez votre annonce en ligne");
-        mailMessage.setText("Il ne vous reste plus que quelques détails à confirmer pour finaliser votre annonce." +
-                " Plus vite vous aurez terminé, plus les voyageurs pourront commencer à réserver rapidement !" +
-                " N'attendez plus.");
+        mailMessage.setSubject("Finalisez la mise en ligne de votre annonce");
+        mailMessage.setText(
+                "Bonjour,\n\n" +
+                        "Nous vous remercions d'avoir choisi notre plateforme pour publier votre annonce. " +
+                        "Il ne vous reste plus que quelques détails à confirmer pour finaliser la mise en ligne de votre annonce.\n\n" +
+                        "En terminant ces étapes rapidement, vous permettrez aux voyageurs de commencer à réserver dès que possible. " +
+                        "Nous vous encourageons à ne pas attendre pour maximiser vos chances de recevoir des réservations.\n\n" +
+                        "Si vous avez besoin d'aide ou de plus d'informations, n'hésitez pas à nous contacter.\n\n" +
+                        "Cordialement,\n"
+        );
         emailUtilisateurService.sendEmail(mailMessage);
         return ResponseEntity.status(HttpStatus.OK).body(response);
 

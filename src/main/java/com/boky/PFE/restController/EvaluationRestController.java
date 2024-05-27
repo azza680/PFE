@@ -63,4 +63,8 @@ public class EvaluationRestController
     public List<Evaluation> listEvaluationByAnnonce(@PathVariable Long id){
         return evaluationService.listEvaluationByAnnonce(id);
     }
+    @RequestMapping(value = "/supprimer-par-annonce/{annonceId}", method = RequestMethod.DELETE)
+    public void supprimerEvaluationsParAnnonce(@PathVariable("annonceId") Long annonceId) {
+        evaluationService.supprimerEvaluationsParAnnonce(annonceId);
+    }
 }

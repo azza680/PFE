@@ -55,7 +55,6 @@ public class SaveAnnonce {
         annonce.setImage(model.getImage());
         annonce.setTitre(model.getTitre());
         annonce.setDescription(model.getDescription());
-
         annonce.setReduction_semaine(model.isReduction_semaine());
         annonce.setReduction_mois(model.isReduction_mois());
         annonce.setPrix(model.getPrix());
@@ -64,10 +63,11 @@ public class SaveAnnonce {
         annonce.setVille(model.getVille());
         annonce.setCode_postale(model.getCode_postale());
         annonce.setHeure_depart(model.getHeure_depart());
-        annonce.setHeure_arriver(annonce.getHeure_arriver());
-        annonce.setVerification(annonce.isVerification());
-        annonce.setAccorde_user(annonce.isAccorde_user());
-        annonce.setDate(annonce.getDate());
+        annonce.setHeure_arriver(model.getHeure_arriver());
+        annonce.setDate(model.getDate());
+        annonce.setVerification(model.isVerification());
+        annonce.setAccorde_user(model.isAccorde_user());
+
         return annonce;
     }
 
