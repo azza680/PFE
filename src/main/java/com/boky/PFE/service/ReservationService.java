@@ -25,4 +25,6 @@ public interface ReservationService
 
     Optional<Reservation> getReservationById(Long id);
     List<Reservation> listReservationByAnnonceur( Long id);
+
+    void SupprimerReservation(Long id);
 }

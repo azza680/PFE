@@ -120,5 +120,9 @@ public class ReservationServiceImpl implements  ReservationService
 
         return reservations;
     }
+    @Override
+    public void SupprimerReservation(Long id){
+        reservationRepository.deleteById(id);
+    }
 
 }

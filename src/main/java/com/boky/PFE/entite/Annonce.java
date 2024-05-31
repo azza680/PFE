@@ -29,7 +29,7 @@ public class Annonce {
 
     private List<String> equipement_securite;
 
-    private String image ;
+    private List<String> image ;
     private String titre ;
     private String description;
 
@@ -135,12 +135,11 @@ public class Annonce {
     }
 
 
-
-    public String getImage() {
+    public List<String> getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(List<String> image) {
         this.image = image;
     }
 

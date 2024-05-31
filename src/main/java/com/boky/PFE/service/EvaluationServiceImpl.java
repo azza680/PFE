@@ -39,12 +39,12 @@ public class EvaluationServiceImpl implements EvaluationService
             evaluation.setUtilisateur(utilisateur.get());
             emailService.SendSimpleMessage(
                     annonceur.getEmail(),
-                    "Nouvelle réservation pour votre annonce",
+                    "Nouveau commentaire sur votre annonce",
                     "Bonjour,\n\n" +
-                            "Nous vous informons que votre annonce \"" + annonce.get().getTitre() + "\" a été réservée. " +
-                            "Veuillez consulter votre profil pour confirmer la réservation.\n\n" +
+                            "Nous vous informons qu'un nouveau commentaire a été laissé sur votre annonce \"" + annonce.get().getTitre() + "\". " +
+                            "Veuillez consulter votre profil pour lire et répondre au commentaire.\n\n" +
                             "Cordialement,\n" +
-                            "L'équipe de gestion des réservations"
+                            "L'équipe de gestion des annonces"
             );
 
             return evaluationRepositrory.save(evaluation);}

@@ -55,4 +55,11 @@ public class ReservationRestController
     public List<Reservation> listReservationByAnnonceur(@PathVariable Long id) {
     return reservationService.listReservationByAnnonceur(id);
 }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE )
+
+    public void SupprimerReservation(@PathVariable("id") Long id){
+
+        reservationService.SupprimerReservation(id);
+
+    }
 }

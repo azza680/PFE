@@ -1,13 +1,12 @@
 package com.boky.PFE.service;
 
 import com.boky.PFE.Beans.SavereservationFM;
-import com.boky.PFE.entite.Planification;
-import com.boky.PFE.entite.ReservationFM;
-import com.boky.PFE.entite.Utilisateur;
+import com.boky.PFE.entite.*;
 import com.boky.PFE.repository.ReservationFMRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -61,6 +60,10 @@ public class ReservationFMServiceImpl implements ReservationFMService {
     @Override
     public List<ReservationFM> listeReservationFMByUtilisateur(Long id) {
         return reservationFMRepository.findByUtilisateurId(id);
+    }
+    @Override
+    public List<ReservationFM> listeReservationFMByPlanning(Long id) {
+        return reservationFMRepository.findByPlanificationId(id);
     }
 
     @Override
@@ -116,5 +119,23 @@ public class ReservationFMServiceImpl implements ReservationFMService {
     @Override
     public Optional<ReservationFM> getReservationFMById(Long id) {
         return reservationFMRepository.findById(id);
+    }
+    @Override
+    public List<ReservationFM> listReservationByFDM(Long idFDM) {
+        // Récupérer toutes les planifications pour le FDM donné
+        List<Planification> planifications = planificationService.listePlanificationByFdm(idFDM);
+        List<ReservationFM> reservations = new ArrayList<>();
+
+        // Pour chaque planification, récupérer les réservations associées
+        for (Planification planification : planifications) {
+            List<ReservationFM> reservationsPlanification = reservationFMRepository.findByPlanificationId(planification.getId());
+            reservations.addAll(reservationsPlanification);
+        }
+
+        return reservations;
+    }
+    @Override
+    public void SupprimerReservationFDM(Long id){
+        reservationFMRepository.deleteById(id);
     }
 }

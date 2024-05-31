@@ -1,5 +1,6 @@
 package com.boky.PFE.repository;
 
+import com.boky.PFE.entite.Reservation;
 import com.boky.PFE.entite.ReservationFM;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,4 +10,6 @@ public interface ReservationFMRepository extends JpaRepository<ReservationFM,Lon
 
 
     List<ReservationFM> findByUtilisateurId(Long id);
+
+    List<ReservationFM> findByPlanificationId(Long id);
 }

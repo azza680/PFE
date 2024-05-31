@@ -1,6 +1,7 @@
 package com.boky.PFE.Beans;
 
 import com.boky.PFE.entite.Annonce;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public class SaveAnnonce {
 
     @ElementCollection
     private List<String> equipement_securite;
-    private String image;
+    @ElementCollection
+    @Column(name = "image", columnDefinition = "LONGTEXT")
+    private List<String> image;
     private String titre;
     private String description;
 
@@ -137,11 +140,11 @@ public class SaveAnnonce {
     }
 
 
-    public String getImage() {
+    public List<String> getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(List<String> image) {
         this.image = image;
     }
 

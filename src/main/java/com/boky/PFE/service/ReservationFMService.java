@@ -2,6 +2,7 @@ package com.boky.PFE.service;
 
 import com.boky.PFE.Beans.SavereservationFM;
 import com.boky.PFE.entite.Planification;
+import com.boky.PFE.entite.Reservation;
 import com.boky.PFE.entite.ReservationFM;
 import com.boky.PFE.entite.Utilisateur;
 
@@ -23,6 +24,8 @@ public interface ReservationFMService {
     List<ReservationFM> listeReservationFMByUtilisateur(Long id);
 
 
+    List<ReservationFM> listeReservationFMByPlanning(Long id);
+
     Utilisateur ClientByReservationFM(Long id);
 
         Planification planificationByReservationFM(Long id);
@@ -32,4 +35,8 @@ public interface ReservationFMService {
 
 
     Optional<ReservationFM> getReservationFMById(Long id);
+
+    List<ReservationFM> listReservationByFDM(Long id);
+
+    void SupprimerReservationFDM(Long id);
 }

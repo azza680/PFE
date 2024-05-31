@@ -1,6 +1,5 @@
 package com.boky.PFE.restController;
-import com.boky.PFE.service.ConfirmationTokenService;
-import com.boky.PFE.service.EmailUtilisateurService;
+import com.boky.PFE.service.*;
 import com.boky.PFE.util.NewPassword;
 import com.boky.PFE.util.UserCode;
 import org.springframework.mail.SimpleMailMessage;
@@ -9,8 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.boky.PFE.entite.Utilisateur;
 import com.boky.PFE.repository.UtilisateurRepository;
 
-import com.boky.PFE.service.EmailService;
-import com.boky.PFE.service.UtilisateurService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,8 @@ public class UtilisateurRestController {
     UtilisateurService utilisateurService;
     @Autowired
     EmailService emailService;
+    @Autowired
+    EvaluationFDMService evaluationFDMService;
 
     @Autowired
     ConfirmationTokenService confirmationTokenService;
@@ -55,6 +54,7 @@ public class UtilisateurRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE )
 
     public void SupprimerUtilisateur(@PathVariable("id") Long id){
+        evaluationFDMService.supprimerEvaluationFDMParFDM(id);
         utilisateurService.SupprimerUtilisateur(id);
 
     }
