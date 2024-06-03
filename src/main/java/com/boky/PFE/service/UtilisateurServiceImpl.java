@@ -44,9 +44,16 @@ public class UtilisateurServiceImpl implements UtilisateurService
         confirmationTokenRepository.save(confirmationToken);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(utilisateur.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setText("To confirm your account, please click here : "
-                +"http://localhost:8081/api/Utilisateur/confirm-account?token="+confirmationToken.getConfirmationToken());
+        mailMessage.setSubject("Confirmation de votre inscription");
+
+        String message = "Bonjour " + utilisateur.getPrenom() + " " + utilisateur.getNom() + ",\n\n" +
+                "Merci de vous être inscrit sur notre site. Pour compléter votre inscription, veuillez confirmer votre compte en cliquant sur le lien ci-dessous :\n\n" +
+                "http://localhost:8081/api/Utilisateur/confirm-account?token=" + confirmationToken.getConfirmationToken() + "\n\n" +
+                "Si vous n'avez pas demandé cette inscription, veuillez ignorer cet email.\n\n" +
+                "Cordialement,\n" +
+                "L'équipe de support";
+
+        mailMessage.setText(message);
         emailUtilisateurService.sendEmail(mailMessage);
 
         System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());

@@ -26,7 +26,7 @@ public class Contact {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         this.date = now.format(formatter);
-        this.repondre=null;
+        this.repondre="Non répondu";
 }
     public Long getId() {
         return id;
