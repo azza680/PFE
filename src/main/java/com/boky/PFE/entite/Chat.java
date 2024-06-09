@@ -14,7 +14,8 @@ public class Chat {
     private int chatId;
     private String firstUserName;
     private String secondUserName;
-
+    private  String emailfirstUserName;
+    private String emailSecondeUser ;
     @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Message> messageList;
@@ -22,11 +23,29 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(int chatId, String firstUserName, String secondUserName, List<Message> messageList) {
+    public Chat(int chatId, String firstUserName,String emailfirstUserName, String secondUserName, String emailSecondeUser ,List<Message> messageList) {
         this.chatId = chatId;
         this.firstUserName = firstUserName;
+        this.emailfirstUserName=emailfirstUserName;
         this.secondUserName = secondUserName;
+        this.emailSecondeUser=emailSecondeUser;
         this.messageList = messageList;
+    }
+
+    public String getEmailfirstUserName() {
+        return emailfirstUserName;
+    }
+
+    public void setEmailfirstUserName(String emailfirstUserName) {
+        this.emailfirstUserName = emailfirstUserName;
+    }
+
+    public String getEmailSecondeUser() {
+        return emailSecondeUser;
+    }
+
+    public void setEmailSecondeUser(String emailSecondeUser) {
+        this.emailSecondeUser = emailSecondeUser;
     }
 
     public int getChatId() {

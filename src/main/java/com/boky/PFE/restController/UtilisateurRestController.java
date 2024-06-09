@@ -227,6 +227,10 @@ public class UtilisateurRestController {
     public List<Utilisateur> getUtilisateurByRole(@RequestParam String role) {
         return utilisateurRepository.findUtilisateurByRole(role);
     }
+    @GetMapping("/email")
+    public Utilisateur getUtilisateurByEmail(@RequestParam String email) {
+        return utilisateurRepository.findByEmail(email);
+    }
 
 
 }

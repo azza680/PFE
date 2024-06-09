@@ -66,7 +66,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public HashSet<Chat> getChatByFirstUserName(String username) throws ChatNotFoundException {
-        HashSet<Chat> chat = chatRepository.getChatByFirstUserName(username);
+
+        HashSet<Chat> chat = chatRepository.getChatByEmailfirstUserName(username);
 
         if (chat.isEmpty()) {
             throw new ChatNotFoundException();
@@ -77,7 +78,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public HashSet<Chat> getChatBySecondUserName(String username) throws ChatNotFoundException {
-        HashSet<Chat> chat = chatRepository.getChatBySecondUserName(username);
+        HashSet<Chat> chat = chatRepository.getChatByEmailSecondeUser(username);
         if (chat.isEmpty()) {
             throw new ChatNotFoundException();
         } else {
@@ -87,8 +88,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public HashSet<Chat> getChatByFirstUserNameOrSecondUserName(String username) throws ChatNotFoundException {
-        HashSet<Chat> chat = chatRepository.getChatByFirstUserName(username);
-        HashSet<Chat> chat1 = chatRepository.getChatBySecondUserName(username);
+        HashSet<Chat> chat = chatRepository.getChatByEmailfirstUserName(username);
+        HashSet<Chat> chat1 = chatRepository.getChatByEmailSecondeUser(username);
 
         chat1.addAll(chat);
 
@@ -102,15 +103,20 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public HashSet<Chat> getChatByFirstUserNameAndSecondUserName(String firstUserName, String secondUserName) throws ChatNotFoundException {
-        HashSet<Chat> chat = chatRepository.getChatByFirstUserNameAndSecondUserName(firstUserName, secondUserName);
-        HashSet<Chat> chat1 = chatRepository.getChatBySecondUserNameAndFirstUserName(firstUserName, secondUserName);
+    public Chat getChatByFirstUserNameAndSecondUserName(String firstUserName, String secondUserName) throws ChatNotFoundException {
+        HashSet<Chat> chat = chatRepository.getChatByEmailfirstUserNameAndEmailSecondeUser(firstUserName, secondUserName);
+        HashSet<Chat> chat1 = chatRepository.getChatByEmailSecondeUserAndEmailfirstUserName(firstUserName, secondUserName);
+System.out.println("chat hathy "+ chat);
+        System.out.println("chat1 hathy "+ chat1);
+
         if (chat.isEmpty() && chat1.isEmpty()) {
             throw new ChatNotFoundException();
-        } else if (chat.isEmpty()) {
-            return chat1;
+        } else if (!chat.isEmpty()) {
+            // Si chat n'est pas vide, renvoyer le premier chat trouvé
+            return chat.iterator().next();
         } else {
-            return chat;
+            // Sinon, renvoyer le premier chat trouvé dans chat1
+            return chat1.iterator().next();
         }
     }
 

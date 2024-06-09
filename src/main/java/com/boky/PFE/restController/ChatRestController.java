@@ -104,11 +104,11 @@ public class ChatRestController
 
 
     @GetMapping("/getChatByFirstUserNameAndSecondUserName")
-    public ResponseEntity<?> getChatByFirstUserNameAndSecondUserName(@RequestParam("firstUserName") String firstUserName, @RequestParam("secondUserName") String secondUserName){
+    public ResponseEntity<Chat> getChatByFirstUserNameAndSecondUserName(@RequestParam("emailfirstUserName") String firstUserName, @RequestParam("emailSecondeUser") String secondUserName){
 
         try {
-            HashSet<Chat> chatByBothEmail = this.chatService.getChatByFirstUserNameAndSecondUserName(firstUserName, secondUserName);
-            return new ResponseEntity<>(chatByBothEmail, HttpStatus.OK);
+            Chat chat = this.chatService.getChatByFirstUserNameAndSecondUserName(firstUserName, secondUserName);
+            return new ResponseEntity<>(chat, HttpStatus.OK);
         } catch (ChatNotFoundException e) {
             return new ResponseEntity("Chat Not Exits", HttpStatus.NOT_FOUND);
         }
